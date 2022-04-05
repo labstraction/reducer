@@ -17,6 +17,11 @@ class StateManager{
         this.actionsList = [];
         this.actionsIndex = 0;
 
+        window.addEventListener('plus-one', (e) => this.addOne())
+        window.addEventListener('minus-one', (e) => this.removeOne())
+        window.addEventListener('undo-action', (e) => this.undo())
+        window.addEventListener('redo-action', (e) => this.redo())
+
     }
 
     addOne(){
@@ -60,6 +65,7 @@ class StateManager{
             return i < this.actionsIndex ? this.actions[action](state) : state;
         }, this.startingState);
         console.log(this.state);
+        dispatchEvent(new CustomEvent('state-update', {detail: this.state}));
     }
 
     limitActionsList(){
